@@ -1,5 +1,5 @@
 let display = document.getElementById('display');
-let expression = ''; // Store the entire expression
+let expression = '';
 
 function appendToDisplay(value) {
     expression += value;
@@ -7,8 +7,14 @@ function appendToDisplay(value) {
 }
 
 function setOperator(op) {
-    if (expression === '') return;
-    expression += op;
+    if (expression === '') return; // Prevent adding operator at the beginning
+
+    const lastChar = expression.slice(-1);
+    if (['+', '-', '*', '/'].includes(lastChar)) {
+        expression = expression.slice(0, -1) + op; // Replace last operator if needed
+    } else {
+        expression += op;
+    }
     display.value = expression;
 }
 
@@ -16,7 +22,12 @@ function calculate() {
     if (expression === '') return;
 
     try {
-        // Use eval() with caution, but it's suitable here for basic math
+        // Replace any remaining trailing operators before evaluating
+        const lastChar = expression.slice(-1);
+        if (['+', '-', '*', '/'].includes(lastChar)) {
+            expression = expression.slice(0, -1);
+        }
+
         let result = eval(expression);
 
         if (isNaN(result) || !isFinite(result)) {
@@ -26,7 +37,7 @@ function calculate() {
         }
 
         display.value = result;
-        expression = result.toString(); // Store result for further calculations
+        expression = result.toString();
     } catch (error) {
         display.value = "Error";
         expression = '';
