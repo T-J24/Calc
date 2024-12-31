@@ -1,60 +1,81 @@
-let display = document.getElementById('display');
-let currentInput = '';
-let operator = null; // Use null instead of empty string
-let previousInput = null;
-
-function appendToDisplay(value) {
-    currentInput += value;
-    display.value = currentInput;
+body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
 }
 
-function setOperator(op) {
-    if (currentInput === '') return; // Prevent setting operator if no input
-
-    if (previousInput !== null) {
-        calculate(); // Calculate pending operations
-    }
-    operator = op;
-    previousInput = parseFloat(currentInput);
-    currentInput = '';
+.calculator {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-function calculate() {
-    if (operator === null || currentInput === '' || previousInput === null) return;
-
-    let result;
-    const curr = parseFloat(currentInput);
-
-    switch (operator) {
-        case '+': result = previousInput + curr; break;
-        case '-': result = previousInput - curr; break;
-        case '*': result = previousInput * curr; break;
-        case '/':
-            if (curr === 0) {
-                display.value = "Error: Division by zero";
-                currentInput = '';
-                previousInput = null;
-                operator = null;
-                return;
-            }
-            result = previousInput / curr;
-            break;
-        default: return;
-    }
-
-    display.value = result;
-    currentInput = result.toString();
-    previousInput = null;
-    operator = null;
+#display {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 20px;
+    text-align: right;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Important for consistent sizing */
 }
 
-function clearDisplay() {
-    currentInput = '';
-    display.value = '';
-    previousInput = null;
-    operator = null;
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
 }
-function deleteLast(){
-    currentInput = currentInput.slice(0,-1);
-    display.value = currentInput;
+
+button {
+    padding: 15px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #eee;
+    transition: background-color 0.2s; /* Smooth hover effect */
+}
+
+button:hover {
+    background-color: #ddd;
+}
+
+.operator {
+    background-color: #ff9800; /* Orange */
+    color: white;
+}
+
+.operator:hover {
+    background-color: #f57c00;
+}
+
+.equals {
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+.equals:hover {
+    background-color: #43A047;
+}
+
+.clear {
+    background-color: #f44336; /* Red */
+    color: white;
+}
+
+.clear:hover {
+    background-color: #d32f2f;
+}
+.delete{
+    background-color: #2196F3; /* Blue */
+    color:white;
+}
+.delete:hover{
+    background-color: #1976D2;
 }
